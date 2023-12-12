@@ -19,14 +19,16 @@ export class ProgramsController {
     const folderPath = 'programme/images'; // upload path in bunny
 
     if (file) {
-      const { buffer } = file;
-      const currentDate = new Date().toISOString().replace(/[^a-zA-Z0-9]/g, '_').split('T')[0];
-      const currentTime = new Date().toISOString().split('T')[1].replace(/\..+/, '').replace(/:/g, '');
-      const originalName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_').replace(/ /g, '_');
-      const randomName = `${currentDate}_${currentTime}_${originalName}`;
-      filePath = `${folderPath}/${randomName}`;
-      await this.bunnyCDNService.uploadFile(filePath, buffer);
+        const { buffer } = file;
+        const currentDate = new Date().toISOString().replace(/[^a-zA-Z0-9]/g, '_').split('T')[0];
+        const currentTime = new Date().toISOString().split('T')[1].replace(/\..+/, '').replace(/:/g, '');
+        const originalName = file.originalname.replace(/[^a-zA-Z0-9.]/g, '_').replace(/ /g, '_');
+        const randomName = `${currentDate}_${currentTime}_${originalName}`;
+        const filenameWithFolder = `${folderPath}/${randomName}`;
+        filePath = filenameWithFolder;
+        await this.bunnyCDNService.uploadFile(filenameWithFolder, buffer);
     }
+
     return filePath;
   }
 }
