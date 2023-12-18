@@ -35,12 +35,15 @@ export class ProgramsController {
     AnyFilesInterceptor()
   )
   async uploadFile(@UploadedFiles() files, @Body() data) {
+    console.log("🚀 ~ file: programs.controller.ts:38 ~ ProgramsController ~ uploadFile ~ data:", JSON.parse(data?.data))
+    const Decomptes = JSON.parse(data?.data)?.Decomptes
     const newData = {
       ordresDeServices: [],
       avenants: [],
       Decomptes: [],
 
     }
+    let decomptesCounter = 0
     for (const file of files) {
       const folderPath = 'programme/files'; // upload path in bunny
       let filePath: string = ''
@@ -53,9 +56,15 @@ export class ProgramsController {
         filePath = `${folderPath}/${randomName}`;
         await this.bunnyCDNService.uploadFile(filePath, buffer);
         if (file.fieldname === "Decomptes") {
-          newData[file.fieldname].push({ fichier: filePath, titre: file.originalname })
-        } else
+          newData[file.fieldname].push({
+            fichier: filePath,
+            montant: Decomptes[decomptesCounter]?.montant,
+            titre: Decomptes[decomptesCounter]?.titre
+          })
+          decomptesCounter++
+        } else {
           newData[file.fieldname].push(filePath);
+        }
       }
     }
     return newData
