@@ -2,33 +2,27 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
 import { UpdateProjectDto } from './dto/update-project.dto';
+import { Cron, CronExpression } from '@nestjs/schedule';
 
 @Controller('projects')
 export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
-  @Post()
-  create(@Body() createProjectDto: CreateProjectDto) {
-    return this.projectsService.create(createProjectDto);
+  @Post('updateInProgressProjects')
+  async updateInProgressProjects(): Promise<void> {
+    await this.projectsService.updateInProgressProjects();
   }
 
-  @Get()
-  findAll() {
-    return this.projectsService.findAll();
+  // Schedule the cron job to run every day at 7 AM
+  @Cron(CronExpression.EVERY_DAY_AT_7AM)
+  async updateInProgressProjectsScheduled(): Promise<void> {
+    await this.projectsService.updateInProgressProjects();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.projectsService.findOne(+id);
+  @Get('findAllProjects')
+  async findAllProjects(): Promise<any[]> {
+    return this.projectsService.findAllProjects();
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProjectDto: UpdateProjectDto) {
-    return this.projectsService.update(+id, updateProjectDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.projectsService.remove(+id);
-  }
+ 
 }
