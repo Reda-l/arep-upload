@@ -35,14 +35,13 @@ export class ProgramsController {
     AnyFilesInterceptor()
   )
   async uploadFile(@UploadedFiles() files, @Body() data) {
-    console.log("🚀 ~ file: programs.controller.ts:38 ~ ProgramsController ~ uploadFile ~ data:", JSON.parse(data?.data))
-    const Decomptes = JSON.parse(data?.data)?.Decomptes
-    const newData = {
-      ordresDeServices: [],
-      avenants: [],
-      Decomptes: [],
-
-    }
+    const Decomptes = data?.data ? JSON.parse(data?.data)?.Decomptes : []
+    const newData = {}
+    // const newData = {
+    //   ordresDeServices: [],
+    //   avenants: [],
+    //   Decomptes: [],
+    // }
     let decomptesCounter = 0
     for (const file of files) {
       const folderPath = 'programme/files'; // upload path in bunny
@@ -63,7 +62,10 @@ export class ProgramsController {
           })
           decomptesCounter++
         } else {
-          newData[file.fieldname].push(filePath);
+          if (!newData[file.fieldname]) {
+            newData[file.fieldname] = []
+          }
+          newData[file.fieldname]?.push(filePath);
         }
       }
     }
