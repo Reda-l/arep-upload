@@ -65,12 +65,15 @@ model Project {
   Decomptes              Json[]                 @default([])
   dernierDecompteMontant String?
   rapports               Json[]
+  cadre_administratif    Json?
   ordresDeServices       String[]               @default([])
+  documents              String[]               @default([])
   marche                 String?
   avenants               String[]               @default([])
-  province               String?
+  province               String[]               @default([])
   type                   String?
-  status                 String?                @default("En cours")
+  status                 String?                @default("en cours")
+  images                 String[]               @default([])
   pole                   String?
   createdAt              DateTime               @default(now())
   updatedAt              DateTime               @updatedAt
@@ -109,4 +112,10 @@ model ProjectChefChantiers {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+
+
+
+
+
 
