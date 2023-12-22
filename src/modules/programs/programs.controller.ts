@@ -9,9 +9,9 @@ export class ProgramsController {
   constructor(private readonly programsService: ProgramsService, private bunnyCDNService: BunnycdnService) { }
 
   // Upload img in bunnyCDN
-  @Post('upload/image')
+  @Post('upload/file')
   @UseInterceptors(
-    FileInterceptor('image')
+    FileInterceptor('file')
   )
   async upload(@UploadedFile() file): Promise<string> {
     let filePath: string = ''
@@ -36,13 +36,10 @@ export class ProgramsController {
   )
   async uploadFile(@UploadedFiles() files, @Body() data) {
     const Decomptes = data?.data ? JSON.parse(data?.data)?.Decomptes : []
-    const newData = {}
-    // const newData = {
-    //   ordresDeServices: [],
-    //   avenants: [],
-    //   Decomptes: [],
-    // }
+    const rapports = data?.data ? JSON.parse(data?.data)?.rapports : []
+    const newData: any = {}
     let decomptesCounter = 0
+    let rapportsCounter = 0
     for (const file of files) {
       const folderPath = 'programme/files'; // upload path in bunny
       let filePath: string = ''
@@ -54,17 +51,23 @@ export class ProgramsController {
         const randomName = `${currentDate}_${currentTime}_${originalName}`;
         filePath = `${folderPath}/${randomName}`;
         await this.bunnyCDNService.uploadFile(filePath, buffer);
+        if (!newData[file.fieldname]) {
+          newData[file.fieldname] = []
+        }
         if (file.fieldname === "Decomptes") {
           newData[file.fieldname].push({
+            ...Decomptes[decomptesCounter],
             fichier: filePath,
-            montant: Decomptes[decomptesCounter]?.montant,
-            titre: Decomptes[decomptesCounter]?.titre
           })
           decomptesCounter++
-        } else {
-          if (!newData[file.fieldname]) {
-            newData[file.fieldname] = []
-          }
+        } else if (file.fieldname === "rapports") {
+          newData[file.fieldname].push({
+            ...rapports[rapportsCounter],
+            fichier: filePath,
+          })
+          rapportsCounter++
+        }
+        else {
           newData[file.fieldname]?.push(filePath);
         }
       }
