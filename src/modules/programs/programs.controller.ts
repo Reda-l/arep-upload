@@ -55,7 +55,7 @@ export class ProgramsController {
         filePath = `${folderPath}/${randomName}`;
         await this.bunnyCDNService.uploadFile(filePath, buffer);
         if (file.fieldname === "Decomptes") {
-          newData[file.fieldname].push({
+          newData[file.fieldname]?.push({
             fichier: filePath,
             montant: Decomptes[decomptesCounter]?.montant,
             titre: Decomptes[decomptesCounter]?.titre

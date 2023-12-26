@@ -67,72 +67,99 @@
       <div class='div1'>
         <h2>Cadre administratif</h2>
         <label>
-          <input type='radio' name='cadreType' value='programmation' />
-          Programmation
+          <input type='radio' name='cadreType' value='programmation' {{#eq cadre_administratif.label 'programmation'}}checked{{/eq}} />
+          Programmation {{#eq cadre_administratif.label 'programmation'}}({{cadre_administratif.value}}%){{/eq}}
         </label>
         <label>
-          <input type='radio' name='cadreType' value='convention' checked />
-          Convention
+          <input type='radio' name='cadreType' value='convention' {{#eq cadre_administratif.label 'convention'}}checked{{/eq}} />
+          Convention {{#eq cadre_administratif.label 'convention'}}({{cadre_administratif.value}}%){{/eq}}
         </label>
       </div>
       <div class='div2'>
         <h2>Données clé</h2>
         <ul>
           <li><span class='key'>Montant du Marché:</span>
-            <span class='value sky-blue'>46 269 380.77</span></li>
-          <li><span class='key'>Entreprise Adjucataire:</span>
-            <span class='value sky-blue'>STRO</span></li>
+            <span class='value sky-blue'>{{montant_du_marche}}</span></li>
+          <li><span class='key'>Titulaire:</span>
+            <span class='value sky-blue'>{{titulaire}}</span></li>
           <li><span class='key'>Date OS:</span>
-            <span class='value sky-blue'>10/02/2023</span></li>
+            <span class='value sky-blue'>{{date_os}}</span></li>
           <li><span class='key'>Délai prévisionnel:</span>
-            <span class='value sky-blue'>18 mois</span></li>
+            <span class='value sky-blue'>{{delai_previsionnel}} mois</span></li>
         </ul>
       </div>
       <div class='div3'>
         <h2>Consistance des Travaux</h2>
-        <ul>
-          <li>Construction de canal en béton armé sur un linéaire de 3.45km
-          </li>
-          <li>Construction de six Dalots</li>
-        </ul>
+        {{#if consistance_des_travaux.length}}
+          <ul>
+            {{#each consistance_des_travaux}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <li>Rien à signaler</li>
+        {{/if}}
       </div>
       <div class='div4'>
         <h2>Points de Blocage</h2>
-        <ul>
-          <li>Titre foncier se trouve sur l'emprise de l'oued</li>
-          <li>Conduite d'eau potable aval 0H14</li>
-        </ul>
+        {{#if points_de_blocage.length}}
+          <ul>
+            {{#each points_de_blocage}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <li>Rien à signaler</li>
+        {{/if}}
       </div>
       <div class='img1'>
-        <img
+        {{!-- <img
           src='https://images.pexels.com/photos/2489/street-building-construction-industry.jpg?cs=srgb&dl=pexels-life-of-pix-2489.jpg&fm=jpg'
           alt='Image 1'
-        />
+        /> --}}
       </div>
       <div class='img2'>
-        <img
+        {{!-- <img
           src='https://img.freepik.com/photos-gratuite/construction-route_342744-602.jpg'
           alt='Image 2'
-        />
+        /> --}}
       </div>
       <div class='div5'>
         <h2>Points Particuliers</h2>
-        <ul>
-          <li>Présence de sol vaseux sur le fond de fouille</li>
-          <li>Travaux dans un milieu saturé</li>
-        </ul>
+        {{#if points_particuliers.length}}
+          <ul>
+            {{#each points_particuliers}}
+              <li>{{this}}</li>
+            {{/each}}
+          </ul>
+        {{else}}
+          <li>Rien à signaler</li>
+        {{/if}}
       </div>
       <div class='div6'>
-        <h2>Avancement Réalisé au 30/11/2023</h2>
+        <h2>Avancement Réalisé au {{date}}</h2>
+
         <div class='progress-container'>
           <label class='label-container' for='progress1'>AV delai</label>
-          <progress id='progress1' value='53' max='100'></progress>
-          <span class='progress-value'>53%</span>
+          <progress id='progress1' value='{{av_delai}}' max='100'></progress>
+          <span class='progress-value'>{{av_delai}}%</span>
         </div>
+
         <div class='progress-container'>
           <label class='label-container' for='progress2'>AV Physique</label>
-          <progress id='progress2' value='60' max='100'></progress>
-          <span class='progress-value'>60%</span>
+          <progress id='progress2' value='{{av_physique}}' max='100'></progress>
+          <span class='progress-value'>{{av_physique}}%</span>
+        </div>
+
+        <div class='progress-container'>
+          <label class='label-container' for='progress3'>AV Financier</label>
+          <progress id='progress3' value='{{av_financier}}' max='100'></progress>
+          <span class='progress-value'>{{av_financier}}%</span>
+        </div>
+
+        <div class='progress-container'>
+          <label class='label-container'>Montant payé</label>
+          <span class='progress-value'>{{montant_paye}} DH</span>
         </div>
       </div>
     </div>
