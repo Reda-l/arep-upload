@@ -37,9 +37,11 @@ export class ProgramsController {
   async uploadFile(@UploadedFiles() files, @Body() data) {
     const Decomptes = data?.data ? JSON.parse(data?.data)?.Decomptes : []
     const rapports = data?.data ? JSON.parse(data?.data)?.rapports : []
+    const images = data?.data ? JSON.parse(data?.data)?.images : []
     const newData: any = {}
     let decomptesCounter = 0
     let rapportsCounter = 0
+    let imagesCounter = 0
     for (const file of files) {
       const folderPath = 'programme/files'; // upload path in bunny
       let filePath: string = ''
@@ -66,6 +68,12 @@ export class ProgramsController {
             fichier: filePath,
           })
           rapportsCounter++
+        } else if (file.fieldname === "images") {
+          newData[file.fieldname].push({
+            ...images[imagesCounter],
+            fichier: filePath,
+          })
+          imagesCounter++
         }
         else {
           newData[file.fieldname]?.push(filePath);
