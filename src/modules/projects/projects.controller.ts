@@ -56,8 +56,8 @@ export class ProjectsController {
       return a === b ? options.fn(this) : options.inverse(this);
     });
     console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ data:", data)
-    const images = await this.handleImages(data.images)
-    // const images = (data.images)
+    // const images = await this.handleImages(data.images)
+    const images = (data.images)
     console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ images:", images)
     const today: Date = new Date();
     const formattedDate: string = `${today.getDate()}/${today.getMonth() + 1
