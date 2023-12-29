@@ -35,8 +35,8 @@ export class ProjectsController {
     return this.projectsService.findAllProjects();
   }
 
-  @Get('generate-pdf')
-  async generatePdf(@Res() res: Response) {
+  @Post('generate-pdf')
+  async generatePdf(@Res() res: Response, @Body() data: any) {
     // Register #eq helper
     handlebars.registerHelper('eq', function (a, b, options) {
       return a === b ? options.fn(this) : options.inverse(this);
@@ -45,7 +45,7 @@ export class ProjectsController {
     const formattedDate: string = `${today.getDate()}/${
       today.getMonth() + 1
     }/${today.getFullYear()}`;
-    const data = {
+    data = {
       // Your dynamic data here
       title: `Marche N 17/2022 TRAVAUX D'AMENAGEMENT DE 13 TERRAINS DE PROXIMITE MULTIDISCIPLINAIRE EN MILIEU `,
       date: formattedDate,
