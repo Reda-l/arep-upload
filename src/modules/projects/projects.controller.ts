@@ -47,11 +47,11 @@ export class ProjectsController {
     }/${today.getFullYear()}`;
     const data = {
       // Your dynamic data here
-      title: 'Marche N 17/2022 Your dynamic title test',
+      title: `Marche N 17/2022 TRAVAUX D'AMENAGEMENT DE 13 TERRAINS DE PROXIMITE MULTIDISCIPLINAIRE EN MILIEU `,
       date: formattedDate,
       cadre_administratif: {
-        label: 'convention', // or 'programmation'/convention
-        value: '50',
+        label: 'programmation', // or 'programmation'/convention
+        value: '100',
       },
       montant_du_marche: '46 269 380.77',
       titulaire: 'STRO',
@@ -62,8 +62,7 @@ export class ProjectsController {
         'Construction de six Dalots',
       ],
       points_de_blocage: [
-        "Titre foncier se trouve sur l'emprise de l'oued",
-        "Conduite d'eau potable aval 0H14",
+        
       ],
       points_particuliers: [
         'Présence de sol vaseux sur le fond de fouille',
@@ -74,7 +73,7 @@ export class ProjectsController {
       av_financier: '50',
       montant_paye: '200500',
     };
-
+    
     const pdfBuffer = await this.projectsService.generatePdf(data);
 
     // Set response headers for PDF download
