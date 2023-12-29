@@ -1,167 +1,391 @@
 <html>
-  <head>
-    <style>
-      @import
-      url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-      body { font-family: 'Roboto', sans-serif; } .container { display: grid;
-      grid-template-columns: 1fr 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr;
-      gap: 10px 10px; grid-auto-flow: row; grid-template-areas: "div1 img1 img2"
-      "div2 img1 img2" "div3 div5 div6" "div4 div5 div6"; } .div1 { grid-area:
-      div1; } .div2 { grid-area: div2; } .div3 { grid-area: div3; } .div4 {
-      grid-area: div4; } .img1 { grid-area: img1; } .img2 { grid-area: img2; }
-      .div5 { grid-area: div5; } .div6 { grid-area: div6; } html, body ,
-      .container { height: 50%; margin: 0; margin: 10px; } /* For presentation
-      only, no need to copy the code below */ .container * { border: 1px solid
-      black; position: relative; } .header { display: flex; justify-content:
-      space-between; align-items: center; padding: 10px; } .title { padding:
-      10px; text-transform: uppercase; text-align: center; font-weight: bold;
-      font-size: 1.3em; /* Adjust the size as needed */ } .div1 { grid-area:
-      div1; display: flex; flex-direction: column; padding-left: 20px; } .div1
-      h2 { margin-bottom: 10px; border: none; /* Remove the border */
-      text-align: left; /* Align text to the left */ } .div1 label {
-      margin-bottom: 10px; border: none; /* Remove the border */ text-align:
-      left; /* Align text to the left */ } .div2 { grid-area: div2;
-      padding-left: 20px; } .div2 h2 { margin-bottom: 10px; border: none; /*
-      Remove the border */ text-align: left; /* Align text to the left */ }
-      .div2 ul { list-style-type: none; padding: 0; border: none; /* Remove the
-      border */ } .div2 li { margin-bottom: 10px; border: none; /* Remove the
-      border */ } .key { border: none; /* Remove the border */ } .value { color:
-      #6bc4e7; /* Sky blue color for the values */ border: none; /* Remove the
-      border */ } .div3, .div4, .div5 { padding-left: 20px; } .div3 h2, .div4
-      h2, .div5 h2 { border: none; /* Remove the border */ } .div3 ul, .div4 ul,
-      .div5 ul { list-style-type: disc; /* Use disc bullets for the list */
-      padding-inline: 10px; border: none; /* Remove the border */ } .div3 li,
-      .div4 li, .div5 li { margin-bottom: 10px; border: none; /* Remove the
-      border */ } .img1, .img2 { position: relative; overflow: hidden; } .img1
-      img, .img2 img { width: 100%; height: 100%; object-fit: cover; } .div6 {
-      grid-area: div6; text-align: center; padding: 20px; } .div6 h2 { border:
-      none; /* Remove the border */ } .progress-container { margin-top: 20px;
-      display: flex; flex-direction: row; justify-content: center; align-items:
-      center; border: none; /* Remove the border */ } .label-container {
-      text-align: center; /* Center the label */ margin-bottom: 5px; /* Adjust
-      as needed for spacing */ border: none; /* Remove the border */ width: 50%;
-      /* Make it inherit the width from the parent */ box-sizing: border-box; /*
-      Include padding and border in the width calculation */ } progress { width:
-      100%; height: 20px; appearance: none; border: none; /* Remove the border
-      */ } progress::-webkit-progress-bar { background-color: #ddd; }
-      progress#progress1::-webkit-progress-value { background-color: #3498db; /*
-      Blue color for the first progress bar */ }
-      progress#progress2::-webkit-progress-value { background-color: #e67e22; /*
-      Orange color for the second progress bar */ } .progress-value { display:
-      block; margin-left: 10px; /* Adjust as needed for spacing */ color:
-      #000000; /* White color for the text */ font-weight: bold; border: none;
-      /* Remove the border */ }
 
-    </style>
-  </head>
-  <body>
-    <header class='header'>
-      <div class='logo-left'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-arep.png&w=256&q=75' alt='Left Logo' /></div>
-      <div class='title'>{{title}}</div>
-      <div class='logo-right'><img
-          src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75'
-          alt='Right Logo'
-        /></div>
-    </header>
-    <div class='container'>
-      <div class='div1'>
-        <h2>Cadre administratif</h2>
-        <label>
-          <input type='radio' name='cadreType' value='programmation' {{#eq cadre_administratif.label 'programmation'}}checked{{/eq}} />
-          Programmation {{#eq cadre_administratif.label 'programmation'}}({{cadre_administratif.value}}%){{/eq}}
-        </label>
-        <label>
-          <input type='radio' name='cadreType' value='convention' {{#eq cadre_administratif.label 'convention'}}checked{{/eq}} />
-          Convention {{#eq cadre_administratif.label 'convention'}}({{cadre_administratif.value}}%){{/eq}}
-        </label>
-      </div>
-      <div class='div2'>
-        <h2>Données clé</h2>
-        <ul>
-          <li><span class='key'>Montant du Marché:</span>
-            <span class='value sky-blue'>{{montant_du_marche}}</span></li>
-          <li><span class='key'>Titulaire:</span>
-            <span class='value sky-blue'>{{titulaire}}</span></li>
-          <li><span class='key'>Date OS:</span>
-            <span class='value sky-blue'>{{date_os}}</span></li>
-          <li><span class='key'>Délai prévisionnel:</span>
-            <span class='value sky-blue'>{{delai_previsionnel}} mois</span></li>
-        </ul>
-      </div>
-      <div class='div3'>
-        <h2>Consistance des Travaux</h2>
-        {{#if consistance_des_travaux.length}}
-          <ul>
-            {{#each consistance_des_travaux}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        {{else}}
-          <li>Rien à signaler</li>
-        {{/if}}
-      </div>
-      <div class='div4'>
-        <h2>Points de Blocage</h2>
-        {{#if points_de_blocage.length}}
-          <ul>
-            {{#each points_de_blocage}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        {{else}}
-          <li>Rien à signaler</li>
-        {{/if}}
-      </div>
-      <div class='img1'>
-        <img
-          src='https://images.pexels.com/photos/2489/street-building-construction-industry.jpg?cs=srgb&dl=pexels-life-of-pix-2489.jpg&fm=jpg'
-          alt='Image 1'
-        />
-      </div>
-      <div class='img2'>
-        <img
-          src='https://img.freepik.com/photos-gratuite/construction-route_342744-602.jpg'
-          alt='Image 2'
-        />
-      </div>
-      <div class='div5'>
-        <h2>Points Particuliers</h2>
-        {{#if points_particuliers.length}}
-          <ul>
-            {{#each points_particuliers}}
-              <li>{{this}}</li>
-            {{/each}}
-          </ul>
-        {{else}}
-          <li>Rien à signaler</li>
-        {{/if}}
-      </div>
-      <div class='div6'>
-        <h2>Avancement Réalisé au {{date}}</h2>
+<head>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-        <div class='progress-container'>
-          <label class='label-container' for='progress1'>AV delai</label>
-          <progress id='progress1' value='{{av_delai}}' max='100'></progress>
-          <span class='progress-value'>{{av_delai}}%</span>
-        </div>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
 
-        <div class='progress-container'>
-          <label class='label-container' for='progress2'>AV Physique</label>
-          <progress id='progress2' value='{{av_physique}}' max='100'></progress>
-          <span class='progress-value'>{{av_physique}}%</span>
-        </div>
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-rows: 1fr 1fr 1fr 1fr;
+      gap: 10px 10px;
+      grid-auto-flow: row;
+      grid-template-areas: "div1 img1 img2"
+        "div2 img1 img2" "div3 div5 div6" "div4 div5 div6";
+    }
 
-        <div class='progress-container'>
-          <label class='label-container' for='progress3'>AV Financier</label>
-          <progress id='progress3' value='{{av_financier}}' max='100'></progress>
-          <span class='progress-value'>{{av_financier}}%</span>
-        </div>
+    .div1 {
+      grid-area:
+        div1;
+    }
 
-        <div class='progress-container'>
-          <label class='label-container'>Montant payé</label>
-          <span class='progress-value'>{{montant_paye}} DH</span>
-        </div>
+    .div2 {
+      grid-area: div2;
+    }
+
+    .div3 {
+      grid-area: div3;
+    }
+
+    .div4 {
+      grid-area: div4;
+    }
+
+    .img1 {
+      grid-area: img1;
+    }
+
+    .img2 {
+      grid-area: img2;
+    }
+
+    .div5 {
+      grid-area: div5;
+    }
+
+    .div6 {
+      grid-area: div6;
+    }
+
+    html,
+    body,
+    .container {
+      height: 50%;
+      margin: 0;
+      margin: 10px;
+    }
+
+    /* For presentation
+      only, no need to copy the code below */
+    .container * {
+      border: 1px solid black;
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      justify-content:
+        space-between;
+      align-items: center;
+      padding: 10px;
+    }
+
+    .title {
+      padding:
+        10px;
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+      font-size: 1.3em;
+      /* Adjust the size as needed */
+    }
+
+    .div1 {
+      grid-area:
+        div1;
+      display: flex;
+      flex-direction: column;
+      padding-left: 20px;
+    }
+
+    .div1 h2 {
+      margin-bottom: 10px;
+      border: none;
+      /* Remove the border */
+      text-align: left;
+      /* Align text to the left */
+    }
+
+    .div1 label {
+      margin-bottom: 10px;
+      border: none;
+      /* Remove the border */
+      text-align:
+        left;
+      /* Align text to the left */
+    }
+
+    .div2 {
+      grid-area: div2;
+      padding-left: 20px;
+    }
+
+    .div2 h2 {
+      margin-bottom: 10px;
+      border: none;
+      /*
+      Remove the border */
+      text-align: left;
+      /* Align text to the left */
+    }
+
+    .div2 ul {
+      list-style-type: none;
+      padding: 0;
+      border: none;
+      /* Remove the
+      border */
+    }
+
+    .div2 li {
+      margin-bottom: 10px;
+      border: none;
+      /* Remove the
+      border */
+    }
+
+    .key {
+      border: none;
+      /* Remove the border */
+    }
+
+    .value {
+      color:
+        #6bc4e7;
+      /* Sky blue color for the values */
+      border: none;
+      /* Remove the
+      border */
+    }
+
+    .div3,
+    .div4,
+    .div5 {
+      padding-left: 20px;
+    }
+
+    .div3 h2,
+    .div4 h2,
+    .div5 h2 {
+      border: none;
+      /* Remove the border */
+    }
+
+    .div3 ul,
+    .div4 ul,
+    .div5 ul {
+      list-style-type: disc;
+      /* Use disc bullets for the list */
+      padding-inline: 10px;
+      border: none;
+      /* Remove the border */
+    }
+
+    .div3 li,
+    .div4 li,
+    .div5 li {
+      margin-bottom: 10px;
+      border: none;
+      /* Remove the
+      border */
+    }
+
+    .img1,
+    .img2 {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .img1 img,
+    .img2 img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .div6 {
+      grid-area: div6;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .div6 h2 {
+      border:
+        none;
+      /* Remove the border */
+    }
+
+    .progress-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items:
+        center;
+      border: none;
+      /* Remove the border */
+    }
+
+    .label-container {
+      text-align: center;
+      /* Center the label */
+      margin-bottom: 5px;
+      /* Adjust
+      as needed for spacing */
+      border: none;
+      /* Remove the border */
+      width: 50%;
+      /* Make it inherit the width from the parent */
+      box-sizing: border-box;
+      /*
+      Include padding and border in the width calculation */
+    }
+
+    progress {
+      width:
+        100%;
+      height: 20px;
+      appearance: none;
+      border: none;
+      /* Remove the border
+      */
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: #ddd;
+    }
+
+    progress#progress1::-webkit-progress-value {
+      background-color: #3498db;
+      /*
+      Blue color for the first progress bar */
+    }
+
+    progress#progress2::-webkit-progress-value {
+      background-color: #e67e22;
+      /*
+      Orange color for the second progress bar */
+    }
+
+    .progress-value {
+      display:
+        block;
+      margin-left: 10px;
+      /* Adjust as needed for spacing */
+      color:
+        #000000;
+      /* White color for the text */
+      font-weight: bold;
+      border: none;
+      /* Remove the border */
+    }
+  </style>
+</head>
+
+<body>
+  <header class='header'>
+    <div class='logo-left'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-arep.png&w=256&q=75'
+        alt='Left Logo' /></div>
+    <div class='title'>{{title}}</div>
+    <div class='logo-right'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75'
+        alt='Right Logo' /></div>
+  </header>
+  <div class='container'>
+    <div class='div1'>
+      <h2>Cadre administratif</h2>
+      <label>
+        <input type='radio' name='cadreType' value='programmation' {{#eq cadre_administratif.label 'programmation'
+          }}checked{{/eq}} />
+        Programmation {{#eq cadre_administratif.label 'programmation'}}({{cadre_administratif.value}}%){{/eq}}
+      </label>
+      <label>
+        <input type='radio' name='cadreType' value='convention' {{#eq cadre_administratif.label 'convention'
+          }}checked{{/eq}} />
+        Convention {{#eq cadre_administratif.label 'convention'}}({{cadre_administratif.value}}%){{/eq}}
+      </label>
+    </div>
+    <div class='div2'>
+      <h2>Données clé</h2>
+      <ul>
+        <li><span class='key'>Montant du Marché:</span>
+          <span class='value sky-blue'>{{montant_du_marche}}</span>
+        </li>
+        <li><span class='key'>Titulaire:</span>
+          <span class='value sky-blue'>{{titulaire}}</span>
+        </li>
+        <li><span class='key'>Date OS:</span>
+          <span class='value sky-blue'>{{date_os}}</span>
+        </li>
+        <li><span class='key'>Délai prévisionnel:</span>
+          <span class='value sky-blue'>{{delai_previsionnel}} mois</span>
+        </li>
+      </ul>
+    </div>
+    <div class='div3'>
+      <h2>Consistance des Travaux</h2>
+      {{#if consistance_des_travaux.length}}
+      <ul>
+        {{#each consistance_des_travaux}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <li>Rien à signaler</li>
+      {{/if}}
+    </div>
+    <div class='div4'>
+      <h2>Points de Blocage</h2>
+      {{#if points_de_blocage.length}}
+      <ul>
+        {{#each points_de_blocage}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <li>Rien à signaler</li>
+      {{/if}}
+    </div>
+    <div class='img1'>
+      <img
+        src={{image1}}
+        alt='Image 1' />
+    </div>
+    <div class='img2'>
+      <img src={{image2}} alt='Image 2' />
+    </div>
+    <div class='div5'>
+      <h2>Points Particuliers</h2>
+      {{#if points_particuliers.length}}
+      <ul>
+        {{#each points_particuliers}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{else}}
+      <li>Rien à signaler</li>
+      {{/if}}
+    </div>
+    <div class='div6'>
+      <h2>Avancement Réalisé au {{date}}</h2>
+
+      <div class='progress-container'>
+        <label class='label-container' for='progress1'>AV delai</label>
+        <progress id='progress1' value='{{av_delai}}' max='100'></progress>
+        <span class='progress-value'>{{av_delai}}%</span>
+      </div>
+
+      <div class='progress-container'>
+        <label class='label-container' for='progress2'>AV Physique</label>
+        <progress id='progress2' value='{{av_physique}}' max='100'></progress>
+        <span class='progress-value'>{{av_physique}}%</span>
+      </div>
+
+      <div class='progress-container'>
+        <label class='label-container' for='progress3'>AV Financier</label>
+        <progress id='progress3' value='{{av_financier}}' max='100'></progress>
+        <span class='progress-value'>{{av_financier}}%</span>
+      </div>
+
+      <div class='progress-container'>
+        <label class='label-container'>Montant payé</label>
+        <span class='progress-value'>{{montant_paye}} DH</span>
       </div>
     </div>
-  </body>
+  </div>
+</body>
+
 </html>

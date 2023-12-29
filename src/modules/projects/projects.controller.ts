@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   Res,
+  Req,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto } from './dto/create-project.dto';
@@ -17,7 +18,7 @@ import handlebars from 'handlebars';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(private readonly projectsService: ProjectsService) { }
 
   @Post('updateInProgressProjects')
   async updateInProgressProjects(): Promise<void> {
@@ -34,48 +35,60 @@ export class ProjectsController {
   async findAllProjects(): Promise<any[]> {
     return this.projectsService.findAllProjects();
   }
-
+  handleImages = async (images) => {
+    const imgsUrls: any[] = [];
+    for (const img of images) {
+      const response = await fetch(`https://storage.bunnycdn.com/arep/${img}`, {
+        headers: {
+          AccessKey: 'e8bc0049-976f-4c50-a4193a7a5ce2-bddf-4aaa',
+        }
+      });
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      imgsUrls.push(url)
+    }
+    return (imgsUrls);
+  };
   @Post('generate-pdf')
   async generatePdf(@Res() res: Response, @Body() data: any) {
     // Register #eq helper
     handlebars.registerHelper('eq', function (a, b, options) {
       return a === b ? options.fn(this) : options.inverse(this);
     });
+    console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ data:", data)
+    const images = await this.handleImages(data.images)
+    // const images = (data.images)
+    console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ images:", images)
     const today: Date = new Date();
-    const formattedDate: string = `${today.getDate()}/${
-      today.getMonth() + 1
-    }/${today.getFullYear()}`;
+    const formattedDate: string = `${today.getDate()}/${today.getMonth() + 1
+      }/${today.getFullYear()}`;
     data = {
       // Your dynamic data here
-      title: `Marche N 17/2022 TRAVAUX D'AMENAGEMENT DE 13 TERRAINS DE PROXIMITE MULTIDISCIPLINAIRE EN MILIEU `,
+      title: data?.title,
       date: formattedDate,
-      cadre_administratif: {
-        label: 'programmation', // or 'programmation'/convention
-        value: '100',
-      },
-      montant_du_marche: '46 269 380.77',
-      titulaire: 'STRO',
-      date_os: '10/02/2023',
-      delai_previsionnel: '18',
-      consistance_des_travaux: [
-        'Construction de canal en béton armé sur un linéaire de 3.45km',
-        'Construction de six Dalots',
-      ],
-      points_de_blocage: [
-        
-      ],
-      points_particuliers: [
-        'Présence de sol vaseux sur le fond de fouille',
-        'Travaux dans un milieu saturé',
-      ],
-      av_delai: '53',
-      av_physique: '60',
-      av_financier: '50',
-      montant_paye: '200500',
+      cadre_administratif: data?.cadre_administratif,
+      montant_du_marche: data?.amount,
+      titulaire: data?.project_number,
+      date_os: data?.DateDeCommencement,
+      delai_previsionnel: data?.duration,
+      consistance_des_travaux: data?.consistance_des_travaux,
+      points_de_blocage: data.points_de_blocage,
+      points_particuliers: data?.points_particuliers,
+      av_delai: data?.predprogress,
+      av_physique: data?.realprogress,
+      av_financier: data?.paidprogress,
+      montant_paye: data?.dernierDecompteMontant,
+      image1: images.length >= 1 ? images[0] : '',
+      image2: images.length >= 2 ? images[1] : ''
+      // image1: 'https://img.freepik.com/photos-gratuite/construction-route_342744-602.jpg',
+      // image2: 'https://images.pexels.com/photos/2489/street-building-construction-industry.jpg?cs=srgb&dl=pexels-life-of-pix-2489.jpg&fm=jpg'
     };
-    
-    const pdfBuffer = await this.projectsService.generatePdf(data);
+    console.log("🚀 ~ file: projects.controller.ts:48 ~ ProjectsController ~ generatePdf ~ data:", data)
 
+    const pdfBuffer = await this.projectsService.generatePdf(data);
+    if (pdfBuffer) {
+      console.log("buffer send");
+    }
     // Set response headers for PDF download
     res.setHeader('Content-Type', 'application/pdf');
     res.setHeader('Content-Disposition', 'attachment; filename=your-file.pdf');
