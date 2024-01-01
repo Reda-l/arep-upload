@@ -55,6 +55,13 @@ export class ProjectsController {
     handlebars.registerHelper('eq', function (a, b, options) {
       return a === b ? options.fn(this) : options.inverse(this);
     });
+    handlebars.registerHelper('formatCurrency', function (value) {
+      // Use Intl.NumberFormat to format the number as currency
+      return new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      }).format(value).replace('$', ''); // Remove the currency symbol
+    });
     console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ data:", data)
     // const images = await this.handleImages(data.images)
     const images = (data.images)
@@ -64,12 +71,17 @@ export class ProjectsController {
       }/${today.getFullYear()}`;
     data = {
       // Your dynamic data here
+      num_marche : data.project_number,
       title: data?.title,
       date: formattedDate,
       cadre_administratif: data?.cadre_administratif,
       montant_du_marche: data?.amount,
-      titulaire: data?.project_number,
-      date_os: data?.DateDeCommencement,
+      titulaire: data?.contractor,
+      date_os: new Date(data?.DateDeCommencement).toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
       delai_previsionnel: data?.duration,
       consistance_des_travaux: data?.consistance_des_travaux,
       points_de_blocage: data.points_de_blocage,
@@ -78,10 +90,8 @@ export class ProjectsController {
       av_physique: data?.realprogress,
       av_financier: data?.paidprogress,
       montant_paye: data?.dernierDecompteMontant,
-      image1: images.length >= 1 ? images[0] : '',
-      image2: images.length >= 2 ? images[1] : ''
-      // image1: 'https://img.freepik.com/photos-gratuite/construction-route_342744-602.jpg',
-      // image2: 'https://images.pexels.com/photos/2489/street-building-construction-industry.jpg?cs=srgb&dl=pexels-life-of-pix-2489.jpg&fm=jpg'
+      image1: images.length >= 1 ? images[0] : 'https://firebasestorage.googleapis.com/v0/b/arep-b1382.appspot.com/o/2023_12_22_101240_7990453.jpg?alt=media&token=9dddf043-6342-439d-bce2-aad54a2a6bcd',
+      image2: images.length >= 2 ? images[1] : 'https://firebasestorage.googleapis.com/v0/b/arep-b1382.appspot.com/o/2023_12_22_101240_7990453.jpg?alt=media&token=9dddf043-6342-439d-bce2-aad54a2a6bcd'
     };
     console.log("🚀 ~ file: projects.controller.ts:48 ~ ProjectsController ~ generatePdf ~ data:", data)
 

@@ -280,7 +280,7 @@
   <header class='header'>
     <div class='logo-left'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-arep.png&w=256&q=75'
         alt='Left Logo' /></div>
-    <div class='title'>{{title}}</div>
+    <div class='title'>Marché Nᵒ{{num_marche}} {{title}}</div>
     <div class='logo-right'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75'
         alt='Right Logo' /></div>
   </header>
@@ -302,7 +302,7 @@
       <h2>Données clé</h2>
       <ul>
         <li><span class='key'>Montant du Marché:</span>
-          <span class='value sky-blue'>{{montant_du_marche}}</span>
+          <span class='value sky-blue'>{{formatCurrency montant_du_marche}}</span>
         </li>
         <li><span class='key'>Titulaire:</span>
           <span class='value sky-blue'>{{titulaire}}</span>
@@ -382,7 +382,7 @@
 
       <div class='progress-container'>
         <label class='label-container'>Montant payé</label>
-        <span class='progress-value'>{{montant_paye}} DH</span>
+        <span class='progress-value'>{{formatCurrency montant_paye}} DH</span>
       </div>
     </div>
   </div>
