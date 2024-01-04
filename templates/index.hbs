@@ -198,9 +198,8 @@
     }
 
     .div6 {
-      grid-area: div6;
       text-align: center;
-      padding: 20px;
+      padding-inline: 10px;
     }
 
     .div6 h2 {
@@ -259,6 +258,16 @@
       background-color: #e67e22;
       /*
       Orange color for the second progress bar */
+    }
+
+    .image-title {
+      text-align: center;
+      border: none;
+      padding: 5px;
+    }
+
+    .ras{
+      margin-top: 40px;
     }
 
     .progress-value {
@@ -336,15 +345,19 @@
         {{/each}}
       </ul>
       {{else}}
-      <li>Rien à signaler</li>
+      <li class="ras">Rien à signaler</li>
       {{/if}}
     </div>
     <div class='img1'>
-      <img
-        src={{image1}}
-        alt='Image 1' />
+      <div class='image-title'>
+        {{description1}}
+      </div>
+      <img src={{image1}} alt='Image 1' />
     </div>
     <div class='img2'>
+      <div class='image-title'>
+        {{description2}}
+      </div>
       <img src={{image2}} alt='Image 2' />
     </div>
     <div class='div5'>
@@ -356,14 +369,14 @@
         {{/each}}
       </ul>
       {{else}}
-      <li>Rien à signaler</li>
+      <li class="ras">Rien à signaler</li>
       {{/if}}
     </div>
     <div class='div6'>
       <h2>Avancement Réalisé au {{date}}</h2>
 
       <div class='progress-container'>
-        <label class='label-container' for='progress1'>AV delai</label>
+        <label class='label-container' for='progress1'>AV Délai</label>
         <progress id='progress1' value='{{av_delai}}' max='100'></progress>
         <span class='progress-value'>{{av_delai}}%</span>
       </div>

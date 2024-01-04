@@ -18,7 +18,7 @@ import handlebars from 'handlebars';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) { }
+  constructor(private readonly projectsService: ProjectsService) {}
 
   @Post('updateInProgressProjects')
   async updateInProgressProjects(): Promise<void> {
@@ -41,13 +41,13 @@ export class ProjectsController {
       const response = await fetch(`https://storage.bunnycdn.com/arep/${img}`, {
         headers: {
           AccessKey: 'e8bc0049-976f-4c50-a4193a7a5ce2-bddf-4aaa',
-        }
+        },
       });
       const blob = await response.blob();
       const url = URL.createObjectURL(blob);
-      imgsUrls.push(url)
+      imgsUrls.push(url);
     }
-    return (imgsUrls);
+    return imgsUrls;
   };
   @Post('generate-pdf')
   async generatePdf(@Res() res: Response, @Body() data: any) {
@@ -60,16 +60,19 @@ export class ProjectsController {
       return new Intl.NumberFormat('en-US', {
         style: 'currency',
         currency: 'USD',
-      }).format(value).replace('$', ''); // Remove the currency symbol
+      })
+        .format(value)
+        .replace('$', ''); // Remove the currency symbol
     });
     // const images = await this.handleImages(data.images)
-    const images = (data.images)
+    const images = data.images;
     const today: Date = new Date();
-    const formattedDate: string = `${today.getDate()}/${today.getMonth() + 1
-      }/${today.getFullYear()}`;
+    const formattedDate: string = `${today.getDate()}/${
+      today.getMonth() + 1
+    }/${today.getFullYear()}`;
     data = {
       // Your dynamic data here
-      num_marche : data.project_number,
+      num_marche: data.project_number,
       title: data?.title,
       date: formattedDate,
       cadre_administratif: data?.cadre_administratif,
@@ -88,13 +91,15 @@ export class ProjectsController {
       av_physique: data?.realprogress,
       av_financier: data?.paidprogress,
       montant_paye: data?.dernierDecompteMontant,
-      image1: images.length >= 1 ? images[0] : 'https://firebasestorage.googleapis.com/v0/b/arep-b1382.appspot.com/o/2023_12_22_101240_7990453.jpg?alt=media&token=9dddf043-6342-439d-bce2-aad54a2a6bcd',
-      image2: images.length >= 2 ? images[1] : 'https://firebasestorage.googleapis.com/v0/b/arep-b1382.appspot.com/o/2023_12_22_101240_7990453.jpg?alt=media&token=9dddf043-6342-439d-bce2-aad54a2a6bcd'
+      image1: images?.length >= 1 ? images[0].fichier : '',
+      description1: images?.length >= 1 ? images[0].description : 'Image Avant',
+      image2: images?.length >= 2 ? images[1].fichier : '',
+      description2: images?.length >= 2 ? images[1].description : 'Image Après',
     };
 
     const pdfBuffer = await this.projectsService.generatePdf(data);
     if (pdfBuffer) {
-      console.log("buffer send");
+      console.log('buffer send');
     }
     // Set response headers for PDF download
     res.setHeader('Content-Type', 'application/pdf');
