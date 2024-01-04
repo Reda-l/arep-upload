@@ -2,7 +2,9 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, UploadedFile, UseInt
 import { ProgramsService } from './programs.service';
 import { BunnycdnService } from 'src/core/bunnycdn/bunnycdn.service';
 import { AnyFilesInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
-
+import * as admin from 'firebase-admin';
+import { diskStorage } from 'multer'
+import { extname } from 'path'
 
 @Controller('programs')
 export class ProgramsController {
@@ -82,6 +84,64 @@ export class ProgramsController {
     }
     return newData
 
+  }
+  // Upload img in firebase
+  @Post('upload/firebase/file')
+  @UseInterceptors(
+    FileInterceptor('file', {
+      storage: diskStorage({
+        // destination: './uploads',
+        filename: (req, file, cb) => {
+          const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('')
+          cb(null, `${randomName}${extname(file.originalname)}`)
+        }
+      })
+    })
+  )
+  async uploadFirebaseFile(@UploadedFile() file): Promise<any> {
+    if (!file) return null;
+    const bucketName = 'arep-b1382.appspot.com';
+    const bucket = admin.storage().bucket(bucketName);
+    const folder = "images"
+    const options = {
+      public: true,
+      destination: folder + '/' + file.filename,
+    };
+    await bucket.upload(file.path, options);
+    const fileUrl = `https://storage.googleapis.com/${bucketName}/${folder}/${file.filename}`;
+    console.log(`File uploaded successfully: ${fileUrl}`);
+
+    return fileUrl;
+  }
+
+  async deleteFile(filePath: string): Promise<any> {
+    if (!filePath) return null;
+    const bucketName = 'arep-b1382.appspot.com';
+    const fileName = filePath.split('/').pop();
+    const file = await admin
+      .storage()
+      .bucket(bucketName)
+      .file("images" + '/' + fileName);
+    file
+      .exists()
+      .then((exists) => {
+        if (!exists[0]) {
+          console.error('File does not exist');
+          return;
+        }
+        // Delete the file
+        file
+          .delete()
+          .then(() => {
+            console.log('File deleted successfully');
+          })
+          .catch((error) => {
+            console.error('Error deleting file:', error);
+          });
+      })
+      .catch((error) => {
+        console.error('Error checking file existence:', error);
+      });
   }
 
 }
