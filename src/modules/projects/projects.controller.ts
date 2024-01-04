@@ -62,10 +62,8 @@ export class ProjectsController {
         currency: 'USD',
       }).format(value).replace('$', ''); // Remove the currency symbol
     });
-    console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ data:", data)
     // const images = await this.handleImages(data.images)
     const images = (data.images)
-    console.log("🚀 ~ file: projects.controller.ts:59 ~ ProjectsController ~ generatePdf ~ images:", images)
     const today: Date = new Date();
     const formattedDate: string = `${today.getDate()}/${today.getMonth() + 1
       }/${today.getFullYear()}`;
@@ -93,7 +91,6 @@ export class ProjectsController {
       image1: images.length >= 1 ? images[0] : 'https://firebasestorage.googleapis.com/v0/b/arep-b1382.appspot.com/o/2023_12_22_101240_7990453.jpg?alt=media&token=9dddf043-6342-439d-bce2-aad54a2a6bcd',
       image2: images.length >= 2 ? images[1] : 'https://firebasestorage.googleapis.com/v0/b/arep-b1382.appspot.com/o/2023_12_22_101240_7990453.jpg?alt=media&token=9dddf043-6342-439d-bce2-aad54a2a6bcd'
     };
-    console.log("🚀 ~ file: projects.controller.ts:48 ~ ProjectsController ~ generatePdf ~ data:", data)
 
     const pdfBuffer = await this.projectsService.generatePdf(data);
     if (pdfBuffer) {
