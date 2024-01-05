@@ -6,6 +6,8 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm ci
+RUN npm install -g npm@7.10.0 && \
+    npm install --production && \
+    npm install
 COPY . .
 CMD ["npm", "run", "start:prod"]
