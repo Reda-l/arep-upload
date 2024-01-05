@@ -6,8 +6,6 @@ ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
 WORKDIR /usr/src/app
 
 COPY package*.json ./
-RUN npm install -g npm@10.2.5 && \
-    npm install --production && \
-    npm install
+RUN npm install --only=production && npm cache clean --force && npm install -g typescript
 COPY . .
 CMD ["npm", "run", "start:prod"]
