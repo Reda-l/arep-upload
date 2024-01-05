@@ -218,6 +218,13 @@
       border: none;
       /* Remove the border */
     }
+    .montant {
+      justify-content: space-between !important;
+      padding-left: 18px;
+    }
+    .border-0 {
+      border: none;
+    }
 
     .label-container {
       text-align: center;
@@ -266,8 +273,11 @@
       padding: 5px;
     }
 
-    .ras{
+    .ras {
       margin-top: 40px;
+    }
+    .font-bold {
+      font-weight: bold;
     }
 
     .progress-value {
@@ -393,9 +403,9 @@
         <span class='progress-value'>{{av_financier}}%</span>
       </div>
 
-      <div class='progress-container'>
-        <label class='label-container'>Montant payé</label>
-        <span class='progress-value'>{{formatCurrency montant_paye}} DH</span>
+      <div class='progress-container montant'>
+        <label class='border-0'>Montant payé</label>
+        <span class='font-bold border-0'>{{formatCurrency montant_paye}} DH</span>
       </div>
     </div>
   </div>
