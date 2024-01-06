@@ -4,6 +4,10 @@ WORKDIR /usr/src/app
 
 COPY  /usr/src/app/package*.json ./
 COPY  /usr/src/app/yarn.lock ./
+
+# Install production dependencies only
+RUN yarn
+
 COPY  /usr/src/app/node_modules/ ./node_modules/
 COPY  /usr/src/app/dist/ ./dist
 COPY templates/ ./templates/
