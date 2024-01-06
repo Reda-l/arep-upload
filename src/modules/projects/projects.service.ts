@@ -68,6 +68,7 @@ export class ProjectsService {
 
     // Launch Puppeteer
     const browser = await puppeteer.launch({
+      executablePath: '/usr/bin/chromium-browser',
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-gpu'],
     });
     const page = await browser.newPage();
