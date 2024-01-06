@@ -1,8 +1,9 @@
+# Stage 1: Build the NestJS application and Prisma Client
 FROM node:18-alpine as builder
 
 WORKDIR /usr/src/app
 
-COPY package*.json yarn.lock ./
+COPY package*.json
 
 # Install dependencies
 RUN yarn
@@ -11,20 +12,20 @@ COPY templates/ ./templates/
 COPY . .
 
 # Generate Prisma Client
-RUN npx prisma generate
+RUN npx prisma generate && echo "Prisma Client generated successfully."
 
 # Build the NestJS application
 RUN yarn build
 
-# Production image
+# Stage 2: Create the production image
 FROM node:18-alpine as production
 
 WORKDIR /usr/src/app
 
-COPY package*.json yarn.lock ./
+COPY package*.json
 
-# Install dependencies
-RUN yarn
+# Install only production dependencies
+RUN yarn install --production
 
 # Copy the built application from the builder stage
 COPY --from=builder /usr/src/app/dist ./dist
@@ -50,4 +51,5 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 ENV CHROME_PATH /usr/lib/chromium/
 ENV CHROMIUM_FLAGS --headless --no-sandbox --disable-gpu --disable-dev-shm-usage
 
-CMD ["yarn", "start:prod"]
+# Run Prisma Client generation before starting the application
+CMD ["sh", "-c", "npx prisma generate && yarn start:prod"]
