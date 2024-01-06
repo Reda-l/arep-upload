@@ -6,7 +6,7 @@ COPY  /usr/src/app/package*.json ./
 COPY  /usr/src/app/yarn.lock ./
 COPY  /usr/src/app/node_modules/ ./node_modules/
 COPY  /usr/src/app/dist/ ./dist
-COPY  /usr/src/app/templates/ ./templates/
+COPY templates/ ./templates/
 
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
