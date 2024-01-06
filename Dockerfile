@@ -4,12 +4,9 @@ WORKDIR /usr/src/app
 
 COPY  /usr/src/app/package*.json ./
 COPY  /usr/src/app/yarn.lock ./
-
-# Install production dependencies only
+# Install dependencies
 RUN yarn
 
-COPY  /usr/src/app/node_modules/ ./node_modules/
-COPY  /usr/src/app/dist/ ./dist
 COPY templates/ ./templates/
 
 # Install Google Chrome Stable and fonts
