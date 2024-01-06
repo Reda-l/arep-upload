@@ -2,12 +2,12 @@ FROM node:18-alpine as production
  
 WORKDIR /usr/src/app
 
-COPY  /usr/src/app/package*.json ./
-COPY  /usr/src/app/yarn.lock ./
+COPY package*.json ./
 # Install dependencies
 RUN yarn
 
 COPY templates/ ./templates/
+COPY . .
 
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
