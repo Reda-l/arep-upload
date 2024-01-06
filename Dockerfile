@@ -53,5 +53,5 @@ ENV CHROME_BIN=/usr/bin/chromium-browser \
 ENV CHROME_PATH /usr/lib/chromium/
 ENV CHROMIUM_FLAGS --headless --no-sandbox --disable-gpu --disable-dev-shm-usage
 
-# Run
-CMD ["yarn", "start:prod"]
+# Run Prisma Client generation and log whether dist folder exists before starting the application
+CMD ["sh", "-c", "ls -l dist && npx prisma generate && yarn start:prod"]
