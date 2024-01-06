@@ -32,6 +32,8 @@ RUN yarn
 COPY --from=builder /usr/src/app/dist ./dist
 # Copy Prisma schema
 COPY prisma ./prisma/
+# Copy Templates folder
+COPY templates/ ./templates/
 # Install Google Chrome Stable and fonts
 # Note: this installs the necessary libs to make the browser work with Puppeteer.
 # Install Chromium
@@ -54,4 +56,4 @@ ENV CHROME_PATH /usr/lib/chromium/
 ENV CHROMIUM_FLAGS --headless --no-sandbox --disable-gpu --disable-dev-shm-usage
 
 # Run Prisma Client generation and log whether dist folder exists before starting the application
-CMD ["sh", "-c", "ls -l dist && npx prisma generate && yarn start:prod"]
+CMD ["sh", "-c", "ls -l templates && npx prisma generate && yarn start:prod"]
