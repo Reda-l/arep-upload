@@ -18,7 +18,7 @@ import handlebars from 'handlebars';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor(private readonly projectsService: ProjectsService) {}
+  constructor(private readonly projectsService: ProjectsService) { }
 
   @Post('updateInProgressProjects')
   async updateInProgressProjects(): Promise<void> {
@@ -67,9 +67,11 @@ export class ProjectsController {
     // const images = await this.handleImages(data.images)
     const images = data.images;
     const today: Date = new Date();
-    const formattedDate: string = `${today.getDate()}/${
-      today.getMonth() + 1
-    }/${today.getFullYear()}`;
+    const formattedDate = today.toLocaleDateString('en-GB', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    });
     data = {
       // Your dynamic data here
       num_marche: data.project_number,

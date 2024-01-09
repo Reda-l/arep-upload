@@ -92,7 +92,7 @@
       padding-left: 20px;
     }
 
-    .div1 h2 {
+    .div1 h3 {
       margin-bottom: 10px;
       border: none;
       /* Remove the border */
@@ -114,13 +114,17 @@
       padding-left: 20px;
     }
 
-    .div2 h2 {
+    .div2 h3 {
       margin-bottom: 10px;
       border: none;
       /*
       Remove the border */
       text-align: left;
       /* Align text to the left */
+    }
+
+    .div4 h3 {
+      border: none;
     }
 
     .div2 ul {
@@ -158,9 +162,9 @@
       padding-left: 20px;
     }
 
-    .div3 h2,
-    .div4 h2,
-    .div5 h2 {
+    .div3 h3,
+    h3 .div4 h3,
+    .div5 h3 {
       border: none;
       /* Remove the border */
     }
@@ -202,7 +206,7 @@
       padding-inline: 10px;
     }
 
-    .div6 h2 {
+    .div6 h3 {
       border:
         none;
       /* Remove the border */
@@ -212,29 +216,53 @@
       margin-top: 20px;
       display: flex;
       flex-direction: row;
-      justify-content: center;
+      justify-content: space-between;
+      gap: 5px;
+      border: none;
+
+      /* Remove the border */
+    }
+
+    .progress-value-container {
+      display: flex;
+      flex-direction: row;
       align-items:
         center;
       border: none;
-      /* Remove the border */
+      justify-content: center;
+      gap: 5px;
+      width: 100%;
     }
-    .montant {
-      justify-content: space-between !important;
-      padding-left: 18px;
+
+    .montant-label {
+      width: 150px;
     }
+
+    .montant-container {
+      display: flex;
+      flex-direction: row;
+      margin-top: 20px;
+      border: none;
+    }
+
+    .montant-value {
+      width: 100%;
+      text-align: center;
+      margin-right: 25px;
+    }
+
     .border-0 {
       border: none;
     }
 
     .label-container {
-      text-align: center;
       /* Center the label */
       margin-bottom: 5px;
       /* Adjust
       as needed for spacing */
       border: none;
       /* Remove the border */
-      width: 50%;
+      width: 150px;
       /* Make it inherit the width from the parent */
       box-sizing: border-box;
       /*
@@ -242,8 +270,7 @@
     }
 
     progress {
-      width:
-        100%;
+      width: 300px;
       height: 20px;
       appearance: none;
       border: none;
@@ -276,13 +303,17 @@
     .ras {
       margin-top: 40px;
     }
+
     .font-bold {
       font-weight: bold;
     }
 
+    * {
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+    }
+
     .progress-value {
-      display:
-        block;
+      display: block;
       margin-left: 10px;
       /* Adjust as needed for spacing */
       color:
@@ -290,6 +321,8 @@
       /* White color for the text */
       font-weight: bold;
       border: none;
+      text-align: center;
+      width: 50px;
       /* Remove the border */
     }
   </style>
@@ -299,13 +332,16 @@
   <header class='header'>
     <div class='logo-left'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-arep.png&w=256&q=75'
         alt='Left Logo' /></div>
-    <div class='title'>Marché Nᵒ{{num_marche}} {{title}}</div>
+    <div class='title'>Marché Nᵒ{{num_marche}}
+      <br> <br />
+      <div>{{title}}</div>
+    </div>
     <div class='logo-right'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75'
         alt='Right Logo' /></div>
   </header>
   <div class='container'>
     <div class='div1'>
-      <h2>Cadre administratif</h2>
+      <h3>Cadre administratif</h3>
       <label>
         <input type='radio' name='cadreType' value='programmation' {{#eq cadre_administratif.label 'programmation'
           }}checked{{/eq}} />
@@ -318,7 +354,7 @@
       </label>
     </div>
     <div class='div2'>
-      <h2>Données clé</h2>
+      <h3>Données clés</h3>
       <ul>
         <li><span class='key'>Montant du Marché :</span>
           <span class='value sky-blue'>{{formatCurrency montant_du_marche}}</span>
@@ -335,7 +371,7 @@
       </ul>
     </div>
     <div class='div3'>
-      <h2>Consistance des Travaux</h2>
+      <h3>Consistance des travaux/prestations</h3>
       {{#if consistance_des_travaux.length}}
       <ul>
         {{#each consistance_des_travaux}}
@@ -347,7 +383,7 @@
       {{/if}}
     </div>
     <div class='div4'>
-      <h2>Points de Blocage</h2>
+      <h3>Points de Blocage</h3>
       {{#if points_de_blocage.length}}
       <ul>
         {{#each points_de_blocage}}
@@ -355,8 +391,9 @@
         {{/each}}
       </ul>
       {{else}}
-      <li class="ras">Rien à signaler</li>
+      <li>Rien à signaler</li>
       {{/if}}
+      <br></br>
     </div>
     <div class='img1'>
       <div class='image-title'>
@@ -371,7 +408,7 @@
       <img src={{image2}} alt='Image 2' />
     </div>
     <div class='div5'>
-      <h2>Points Particuliers</h2>
+      <h3>Points Particuliers</h3>
       {{#if points_particuliers.length}}
       <ul>
         {{#each points_particuliers}}
@@ -379,33 +416,40 @@
         {{/each}}
       </ul>
       {{else}}
-      <li class="ras">Rien à signaler</li>
+      <li>Rien à signaler</li>
       {{/if}}
+      <br> </br>
     </div>
     <div class='div6'>
-      <h2>Avancement Réalisé au {{date}}</h2>
+      <h3>Avancement Réalisé au {{date}}</h3>
 
       <div class='progress-container'>
         <label class='label-container' for='progress1'>AV Délai</label>
-        <progress id='progress1' value='{{av_delai}}' max='100'></progress>
-        <span class='progress-value'>{{av_delai}}%</span>
+        <div class="progress-value-container">
+          <progress id='progress1' value='{{av_delai}}' max='100'></progress>
+          <span class='progress-value'>{{av_delai}}%</span>
+        </div>
       </div>
 
       <div class='progress-container'>
         <label class='label-container' for='progress2'>AV Physique</label>
-        <progress id='progress2' value='{{av_physique}}' max='100'></progress>
-        <span class='progress-value'>{{av_physique}}%</span>
+        <div class="progress-value-container">
+          <progress id='progress2' value='{{av_physique}}' max='100'></progress>
+          <span class='progress-value'>{{av_physique}}%</span>
+        </div>
       </div>
 
       <div class='progress-container'>
         <label class='label-container' for='progress3'>AV Financier</label>
-        <progress id='progress3' value='{{av_financier}}' max='100'></progress>
-        <span class='progress-value'>{{av_financier}}%</span>
+        <div class="progress-value-container">
+          <progress id='progress3' value='{{av_financier}}' max='100'></progress>
+          <span class='progress-value'>{{av_financier}}%</span>
+        </div>
       </div>
 
-      <div class='progress-container montant'>
-        <label class='border-0'>Montant payé</label>
-        <span class='font-bold border-0'>{{formatCurrency montant_paye}} DH</span>
+      <div class='montant-container'>
+        <label class='montant-label border-0'>Montant payé</label>
+        <span class='montant-value font-bold border-0'>{{formatCurrency montant_paye}} DH</span>
       </div>
     </div>
   </div>
