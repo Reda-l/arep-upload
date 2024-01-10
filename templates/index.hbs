@@ -235,7 +235,7 @@
     }
 
     .montant-label {
-      width: 150px;
+      width: 140px;
     }
 
     .montant-container {
@@ -246,13 +246,17 @@
     }
 
     .montant-value {
-      width: 100%;
-      text-align: center;
-      margin-right: 25px;
+      width: fit-content;
+
     }
 
     .border-0 {
       border: none;
+    }
+
+    .border-x-0 {
+      border-left: none;
+      border-right: none;
     }
 
     .label-container {
@@ -399,13 +403,13 @@
       <div class='image-title'>
         {{description1}}
       </div>
-      <img src={{image1}} alt='Image 1' />
+      <img class="border-x-0" src={{image1}} alt='Image 1' />
     </div>
     <div class='img2'>
       <div class='image-title'>
         {{description2}}
       </div>
-      <img src={{image2}} alt='Image 2' />
+      <img class="border-x-0" src={{image2}} alt='Image 2' />
     </div>
     <div class='div5'>
       <h3>Points Particuliers</h3>
@@ -448,7 +452,7 @@
       </div>
 
       <div class='montant-container'>
-        <label class='montant-label border-0'>Montant payé</label>
+        <label class='montant-label  border-0'>Montant payé</label>
         <span class='montant-value font-bold border-0'>{{formatCurrency montant_paye}} DH</span>
       </div>
     </div>
