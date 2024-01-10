@@ -26,7 +26,7 @@ export class ProjectsController {
   }
 
   // Schedule the cron job to run every day at 7 AM
-  @Cron(CronExpression.EVERY_DAY_AT_3PM)
+  @Cron(CronExpression.EVERY_10_MINUTES)
   async updateInProgressProjectsScheduled(): Promise<void> {
     console.log('RUNNED CRON AT --> :' + new Date())
     await this.projectsService.updateInProgressProjects();
