@@ -81,6 +81,7 @@ export class ProjectsService {
       width: '1500px',
       height: '2000px',
       printBackground: true,
+      landscape:true,
       margin: {
         top: '20px',
         bottom: '20px',
