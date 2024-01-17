@@ -69,10 +69,10 @@ model Project {
   cadre_administratif     Json?
   ordresDeServices        Json[]                 @default([])
   documents               Json[]                 @default([])
-  marche                  Json?                  
+  marche                  Json?
   consistance_des_travaux String[]
   points_particuliers     String[]
-  avenants                Json[]               @default([])
+  avenants                Json[]                 @default([])
   province                String[]               @default([])
   type                    String?
   status                  String?                @default("en cours")
@@ -84,6 +84,19 @@ model Project {
   Bordereau               Bordereau?
   Tasks                   Tasks[]
   blocks                  Block[]
+  breakPeriods            BreakPeriods[]
+}
+
+model BreakPeriods {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  project           Project   @relation(fields: [projectId], references: [id])
+  projectId         String    @unique @db.ObjectId
+  breakDate         DateTime
+  returnDate        DateTime?
+  motive            String?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  breakPeriodInDays Int?
 }
 
 model Block {
@@ -147,10 +160,3 @@ model ProjectChefChantiers {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
-
-
-
-
-
-
-

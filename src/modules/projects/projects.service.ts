@@ -5,6 +5,7 @@ import { PrismaService } from 'src/core/prisma-service/prisma-service.service';
 import * as handlebars from 'handlebars';
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
+import { BreakPeriods } from '@prisma/client';
 
 @Injectable()
 export class ProjectsService {
@@ -23,12 +24,25 @@ export class ProjectsService {
         },
       },
     });
-
+  
     for (const project of projectsToUpdate) {
       const { DateDeCommencement, duration } = project;
+  
+      // Fetch BreakPeriods for the current project
+      const breakPeriods = await this.prisma.breakPeriods.findMany({
+        where: {
+          projectId: project.id,
+        },
+      });
+  
       if (DateDeCommencement && duration) {
-        const completionPercentage = this.calculateCompletionPercentage(currentDate, DateDeCommencement, duration);
-
+        const completionPercentage = this.calculateCompletionPercentage(
+          currentDate,
+          DateDeCommencement,
+          duration,
+          breakPeriods || [] // Pass breakPeriods array or an empty array if it's null or undefined
+        );
+  
         await this.prisma.project.update({
           where: { id: project.id },
           data: { predprogress: completionPercentage.toString() },
@@ -36,13 +50,19 @@ export class ProjectsService {
       }
     }
   }
-
-  private calculateCompletionPercentage(currentDate: Date, startDate: Date, duration: string): number {
+  
+  private calculateCompletionPercentage(currentDate: Date, startDate: Date, duration: string, breakPeriods: any[]): number {
     const totalDurationInDays = parseInt(duration, 10) * 30;
-    const elapsedDurationInDays = this.getDaysDiff(startDate, currentDate);
-
+  
+    // Calculate the sum of break periods' breakPeriodInDays
+    const breakPeriodsDuration = breakPeriods.reduce((sum, breakPeriod) => {
+      return sum + (breakPeriod.breakPeriodInDays || 0);
+    }, 0);
+  
+    const elapsedDurationInDays = this.getDaysDiff(startDate, currentDate) + breakPeriodsDuration;
+  
     const progress = Math.min((elapsedDurationInDays / totalDurationInDays) * 100, 100);
-
+  
     // Ensure the progress is capped at 100%
     return Math.round(progress * 100) / 100; // Rounding to two decimal places
   }
