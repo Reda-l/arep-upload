@@ -27,7 +27,6 @@ export class ProjectsService {
   
     for (const project of projectsToUpdate) {
       const { DateDeCommencement, duration } = project;
-  
       // Fetch BreakPeriods for the current project
       const breakPeriods = await this.prisma.breakPeriods.findMany({
         where: {
@@ -47,8 +46,9 @@ export class ProjectsService {
           where: { id: project.id },
           data: { predprogress: completionPercentage.toString() },
         });
-      }
+      
     }
+  }
   }
   
   private calculateCompletionPercentage(currentDate: Date, startDate: Date, duration: string, breakPeriods: any[]): number {
@@ -59,10 +59,14 @@ export class ProjectsService {
       return sum + (breakPeriod.breakPeriodInDays || 0);
     }, 0);
   
-    const elapsedDurationInDays = this.getDaysDiff(startDate, currentDate) + breakPeriodsDuration;
+    const elapsedDurationInDays = this.getDaysDiff(startDate, currentDate) - breakPeriodsDuration;
   
-    const progress = Math.min((elapsedDurationInDays / totalDurationInDays) * 100, 100);
-  
+    // Ensure elapsed duration is at least 0 to avoid negative progress
+    const nonNegativeElapsedDuration = Math.max(elapsedDurationInDays, 0);
+
+    const progress = Math.min((nonNegativeElapsedDuration / totalDurationInDays) * 100, 100);
+    // const progress = (elapsedDurationInDays / totalDurationInDays) * 100;
+
     // Ensure the progress is capped at 100%
     return Math.round(progress * 100) / 100; // Rounding to two decimal places
   }
