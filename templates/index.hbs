@@ -341,8 +341,8 @@
     }
 
     .logo2 {
-      width: 120px;
-      height: 170px;
+      width: 160px;
+      height: 160px;
       object-fit: contain;
     }
 
@@ -383,7 +383,8 @@
         <div class="title">{{title}}</div>
       </div>
       <div class='logo-right '><img class="logo2"
-          src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75' alt='Right Logo' />
+          src='https://storage.googleapis.com/arep-b1382.appspot.com/images/3baa9b8d107643acd6907d9241b7c7331.jpg'
+          alt='Right Logo' />
       </div>
     </div>
   </header>
@@ -421,12 +422,12 @@
     <div class='div3'>
       <h3 class="section-title">Consistance des travaux/prestations</h3>
       <ul>
-      {{#if consistance_des_travaux.length}}
+        {{#if consistance_des_travaux.length}}
         {{#each consistance_des_travaux}}
         <li>{{this}}</li>
         {{/each}}
-      {{else}}
-      <li>Rien à signaler</li>
+        {{else}}
+        <li>Rien à signaler</li>
       </ul>
       {{/if}}
     </div>
