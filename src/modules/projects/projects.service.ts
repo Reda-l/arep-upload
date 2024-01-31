@@ -5,7 +5,6 @@ import { PrismaService } from 'src/core/prisma-service/prisma-service.service';
 import * as handlebars from 'handlebars';
 import puppeteer from 'puppeteer';
 import * as fs from 'fs';
-import { BreakPeriods } from '@prisma/client';
 
 @Injectable()
 export class ProjectsService {
@@ -103,11 +102,11 @@ export class ProjectsService {
     // Generate PDF buffer
     const pdfBuffer = await page.pdf({
       width: '1500px',
-      height: '2000px',
+      height: '1900px',
       printBackground: true,
       landscape:true,
       margin: {
-        top: '20px',
+        top: '50px',
         bottom: '20px',
         left: '0px',
         right: '0px',

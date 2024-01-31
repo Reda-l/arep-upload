@@ -59,6 +59,10 @@
       margin: 10px;
     }
 
+    .container {
+      margin-top: 50px;
+    }
+
     /* For presentation
       only, no need to copy the code below */
     .container * {
@@ -70,7 +74,7 @@
       display: flex;
       justify-content:
         space-between;
-      align-items: center;
+      align-items: end;
       padding: 10px;
     }
 
@@ -80,7 +84,9 @@
       text-transform: uppercase;
       text-align: center;
       font-weight: bold;
-      font-size: 1.3em;
+      font-size: 24px;
+      max-width: 1000px;
+      margin: auto;
       /* Adjust the size as needed */
     }
 
@@ -160,13 +166,20 @@
     .div4,
     .div5 {
       padding-left: 20px;
+      */
     }
 
     .div3 h3,
     h3 .div4 h3,
     .div5 h3 {
       border: none;
+      margin-top: 20px;
+      margin-bottom: 20px;
       /* Remove the border */
+    }
+
+    .mt-10 {
+      margin-top: 10;
     }
 
     .div3 ul,
@@ -235,7 +248,7 @@
     }
 
     .montant-label {
-      width: 140px;
+      width: 170px;
     }
 
     .montant-container {
@@ -313,7 +326,24 @@
     }
 
     * {
-      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+      font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      font-size: 19px;
+    }
+
+    .section-title {
+      font-size: 19px;
+    }
+
+    .logo1 {
+      width: 300px;
+      height: 200px;
+      object-fit: contain;
+    }
+
+    .logo2 {
+      width: 120px;
+      height: 170px;
+      object-fit: contain;
     }
 
     .progress-value {
@@ -329,24 +359,38 @@
       width: 50px;
       /* Remove the border */
     }
+
+    .div1,
+    .div2,
+    .div3,
+    .div4,
+    .div5,
+    .div6 {
+      padding-top: 20px;
+      padding-bottom: 20px;
+    }
   </style>
 </head>
 
 <body>
-  <header class='header'>
-    <div class='logo-left'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-arep.png&w=256&q=75'
-        alt='Left Logo' /></div>
-    <div class='title'>Marché Nᵒ{{num_marche}}
-      <br> <br />
-      <div>{{title}}</div>
+  <header>
+    <div class='header'>
+      <div class='logo-left '><img class="logo1"
+          src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-arep.png&w=256&q=75' alt='Left Logo' /></div>
+
+      <div class='title'>Marché Nᵒ{{num_marche}}
+        <br> <br />
+        <div class="title">{{title}}</div>
+      </div>
+      <div class='logo-right '><img class="logo2"
+          src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75' alt='Right Logo' />
+      </div>
     </div>
-    <div class='logo-right'><img src='https://arep-casa-settat.vercel.app/_next/image?url=%2Flogo-region.png&w=128&q=75'
-        alt='Right Logo' /></div>
   </header>
   <div class='container'>
     <div class='div1'>
-      <h3>Cadre administratif</h3>
-      <label>
+      <h3 class="section-title">Cadre administratif</h3>
+      <label class="mt-10">
         <input type='radio' name='cadreType' value='programmation' {{#eq cadre_administratif.label 'programmation'
           }}checked{{/eq}} />
         Programmation {{#eq cadre_administratif.label 'programmation'}}({{cadre_administratif.value}}%){{/eq}}
@@ -358,7 +402,7 @@
       </label>
     </div>
     <div class='div2'>
-      <h3>Données clés</h3>
+      <h3 class="section-title">Données clés</h3>
       <ul>
         <li><span class='key'>Montant du Marché :</span>
           <span class='value sky-blue'>{{formatCurrency montant_du_marche}}</span>
@@ -375,57 +419,57 @@
       </ul>
     </div>
     <div class='div3'>
-      <h3>Consistance des travaux/prestations</h3>
-      {{#if consistance_des_travaux.length}}
+      <h3 class="section-title">Consistance des travaux/prestations</h3>
       <ul>
+      {{#if consistance_des_travaux.length}}
         {{#each consistance_des_travaux}}
         <li>{{this}}</li>
         {{/each}}
-      </ul>
       {{else}}
       <li>Rien à signaler</li>
+      </ul>
       {{/if}}
     </div>
     <div class='div4'>
-      <h3>Points de Blocage</h3>
-      {{#if points_de_blocage.length}}
+      <h3 class="section-title">Points de Blocage</h3>
       <ul>
+        {{#if points_de_blocage.length}}
         {{#each points_de_blocage}}
         <li>{{this}}</li>
         {{/each}}
+        {{else}}
+        <li>Rien à signaler</li>
+        {{/if}}
       </ul>
-      {{else}}
-      <li>Rien à signaler</li>
-      {{/if}}
       <br></br>
     </div>
     <div class='img1'>
-      <div class='image-title'>
+      <div class='image-title font-bold'>
         {{description1}}
       </div>
       <img class="border-x-0" src={{image1}} alt='Image 1' />
     </div>
     <div class='img2'>
-      <div class='image-title'>
+      <div class='image-title font-bold'>
         {{description2}}
       </div>
       <img class="border-x-0" src={{image2}} alt='Image 2' />
     </div>
     <div class='div5'>
-      <h3>Points Particuliers</h3>
-      {{#if points_particuliers.length}}
+      <h3 class="section-title">Points Particuliers</h3>
       <ul>
+        {{#if points_particuliers.length}}
         {{#each points_particuliers}}
         <li>{{this}}</li>
         {{/each}}
+        {{else}}
+        <li>Rien à signaler</li>
+        {{/if}}
       </ul>
-      {{else}}
-      <li>Rien à signaler</li>
-      {{/if}}
       <br> </br>
     </div>
     <div class='div6'>
-      <h3>Avancement Réalisé au {{date}}</h3>
+      <h3 class="section-title">Avancement Réalisé au {{date}}</h3>
 
       <div class='progress-container'>
         <label class='label-container' for='progress1'>AV Délai</label>

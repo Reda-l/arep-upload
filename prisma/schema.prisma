@@ -24,6 +24,7 @@ model User {
   updatedAt             DateTime               @updatedAt
   chefChantiersProjects ProjectChefChantiers[]
   chefDeProjectProjects ProjectChefDeProject[]
+  observateurProgrammesList String[]
 }
 
 model Programme {
